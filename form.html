@@ -4,17 +4,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="./a20.php">
   <title>Form</title>
 </head>
 
 <body>
   <h2>HTML form</h2>
-  <form action="a20.php" method="POST">
-    <label for="name">Enter your name : </label>
-    <input type="text" name="name" id="name" required> <br><br/>
+  <form method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+    <label for="name">Enter your name: </label>
+    <input type="text" name="name" id="name" required> <br>
+    <label for="email">Enter your email: </label>
+    <input type="email" name="email" id="email" required> <br><br>
     <input type="submit" value="submit">
   </form>
+
+  <?php
+  if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = htmlspecialchars($_POST['name']);
+    $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+  
+    if (!empty($name)) {
+      echo "<h2>Your name is: " . $name . "!</h2>";
+      echo "<h2>Your email is: " . $email . "!</h2>";
+    } else {
+      echo "<h2>Please enter your name</h2>";
+    }
+  }
+  ?>
 
 </body>
 
